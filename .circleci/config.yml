@@ -45,6 +45,6 @@ jobs:
       ## create release: cr upload -o pachyderm -r helmchart
       ## cr index -o pachyderm -r helmchart -c https://pachyderm.github.io/helmchart --push
       - checkout
-      - run: package pachyderm
-      - run: upload -o pachyderm -r helmchart
-      - run: index -o pachyderm -r helmchart -c https://pachyderm.github.io/helmchart --push
+      - run: cr package pachyderm
+      - run: cr upload -o pachyderm -r helmchart
+      - run: cr index -o pachyderm -r helmchart -c https://pachyderm.github.io/helmchart --push

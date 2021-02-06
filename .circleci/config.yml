@@ -45,8 +45,8 @@ jobs:
       ## create release: cr upload -o pachyderm -r helmchart
       ## cr index -o pachyderm -r helmchart -c https://pachyderm.github.io/helmchart --push
       - add_ssh_keys:
-        fingerprints:
-          - 3e:5e:ce:88:3a:42:ca:26:5e:90:66:f7:78:60:12:e1
+          fingerprints:
+            - 3e:5e:ce:88:3a:42:ca:26:5e:90:66:f7:78:60:12:e1
       - run:
         name: Avoid hosts unknown for github
         command: echo -e “Host github.com\n\tStrictHostKeyChecking no\n” > ~/.ssh/config

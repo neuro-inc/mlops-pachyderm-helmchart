@@ -51,7 +51,7 @@ spec:
           name: peer-port
         resources:
           requests: #TODO
-            cpu: "1"
+            cpu: "0.5"
             memory: 2G
         volumeMounts:
         - mountPath: /var/data/etcd
@@ -59,8 +59,10 @@ spec:
       imagePullSecrets: null #TODO
   volumeClaimTemplates:
   - metadata:
+      {{- if has .Values.pachd.storage.backend (list "GOOGLE" "AMAZON") }}
       annotations:
-        volume.beta.kubernetes.io/storage-class: etcd-storage-class #TODO only set if storage class created
+        volume.beta.kubernetes.io/storage-class: etcd-storage-class
+      {{- end }}
       labels:
         app: etcd
         suite: pachyderm

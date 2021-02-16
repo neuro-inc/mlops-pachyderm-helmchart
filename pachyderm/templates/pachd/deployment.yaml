@@ -315,7 +315,7 @@ spec:
             cpu: "1"
             memory: 2G
           requests: #TODO
-            cpu: "1"
+            cpu: "0.5"
             memory: 2G
         volumeMounts:
         - mountPath: /pach

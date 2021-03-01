@@ -1,5 +1,6 @@
-# First, create MinIO bucket!
-MINIO_BUCKET=dogs-demo-pachyderm
+# First, create MinIO bucket.
+
+MINIO_BUCKET=pachyderm-demos
 MINIO_ACCESS_KEY=2B9GO0W97...
 MINIO_SECRET_KEY=IXO-KZcus6uXd...
 

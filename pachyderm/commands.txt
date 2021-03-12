@@ -1,0 +1,15 @@
+# First, create MinIO bucket.
+
+MINIO_BUCKET=pachyderm-demos
+MINIO_ACCESS_KEY=2B9GO0W97...
+MINIO_SECRET_KEY=IXO-KZcus6uXd...
+
+helm -n pachyderm install pachyderm ./pachyderm -f ./pachyderm/values.yaml \
+--set pachd.service.type=LoadBalancer \
+--set pachd.storage.backend=MINIO \
+--set pachd.storage.minio.minioBucket=$MINIO_BUCKET \
+--set pachd.storage.minio.minioEndpoint=minio.mlops.neu.ro:9000 \
+--set pachd.storage.minio.minioID=$MINIO_ACCESS_KEY \
+--set pachd.storage.minio.minioSecret=$MINIO_SECRET_KEY \
+--set pachd.storage.minio.minioSecure="1" \
+--set pachd.storage.minio.minioSignature="<non-empty>"

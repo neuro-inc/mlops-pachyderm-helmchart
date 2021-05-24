@@ -1,65 +1,25 @@
-# Pachyderm Helm Chart
+# Pachyderm Helm Chart README is [here](README-pachy.md)
 
-The repo contains the pachyderm helm chart.
+# Deploy with MINIO
+1. Create MinIO bucket and store following access info:
+    - MINIO_ENDPOINT=minio.minio:9000
+    - MINIO_BUCKET=pachyderm
+    - MINIO_ACCESS_KEY=2B9GO0W97...
+    - MINIO_SECRET_KEY=IXO-KZcus6uXd...
 
-## Usage
-
-Create a `values.yaml` file with your storage provider of choice, and other options, then run
-
-```shell
-$ helm repo add pach https://pachyderm.github.io/helmchart
-$ helm install pach/pachyderm -f values.yaml
-```
-
-## Developer Guide
-To run the tests for the helm chart, run the following:
-
-```shell
-$ make test
-```
-
-# Diff against `pachctl`
-
-To see how this Helm chart and `pachctl deploy` differ, one can do
-something similar to the following:
-
-1. Generate a `pachctl` manifest with
-
+2. Clone this repo, chekout branch if needed
     ```shell
-    $ pachctl deploy googleBUCKET-NAME 10 --dynamic-etcd-nodes 1 -o yaml --dry-run > pachmanifest.yaml
+    $ git clone https://github.com/neuro-inc/mlops-pachyderm-helmchart/ && cd mlops-pachyderm-helmchart
     ```
 
-1. Generate a Helm manifest with
-
+3. Deploy:
     ```shell
-    $ helm template -f examples/gcp-values.yaml ./pachyderm > helmmanifest.yaml
+    $ helm -n pachyderm upgrade pachyderm ./pachyderm -i --create-namespace --wait --timeout 600s \
+        -f ./pachyderm/values.yaml \
+        --set pachd.storage.backend=MINIO \
+        --set pachd.storage.minio.bucket=$MINIO_BUCKET \
+        --set pachd.storage.minio.endpoint=$MINIO_ENDPOINT \
+        --set pachd.storage.minio.id=$MINIO_ACCESS_KEY \
+        --set pachd.storage.minio.secret=$MINIO_SECRET_KEY \
+        --set pachd.service.type=LoadBalancer
     ```
-
-1. Visually diff the two.
-
-# JSON Schema
-
-We use [helm-schema-gen](https://github.com/karuppiah7890/helm-schema-gen)
-to manage the JSON schema.  It can be installed with:
-
-```shell
-$ helm plugin install https://github.com/karuppiah7890/helm-schema-gen.git
-```
-
-When updating `values.yaml` please run the following to update the
-json schema file.
-
-```shell
-$ cd pachyderm
-$ helm schema-gen values.yaml > values.schema.json
-```
-
-# Validate Helm manifest
-
-```shell
-go install github.com/instrumenta/kubeval
-kubeval helmmanifest.yaml
-```
-
-<!-- SPDX-FileCopyrightText: Pachyderm, Inc. <info@pachyderm.com>
-SPDX-License-Identifier: Apache-2.0 -->
